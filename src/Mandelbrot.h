@@ -2,6 +2,7 @@
 // Created by Laura Watkins.
 
 #include <math.h>
+#include "Grid.h"
 
 class Mandelbrot
 {
@@ -13,6 +14,8 @@ public:
     int calculate_mandelbrot(double x0, double y0);
 
 private:
+
+    double color(double distance, Grid* grid);
 
     double rad_max_;
 
