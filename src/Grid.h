@@ -26,7 +26,7 @@ public:
          int pixel_count_x) :
         center_x_(center_x), center_y_(center_y),
         length_x_(length_x), length_y_(length_y),
-        pixel_count_x_(pixel_count_x)
+        pixel_count_x(pixel_count_x)
     {
         setup();
     }
@@ -34,8 +34,8 @@ public:
     KOKKOS_INLINE_FUNCTION
     mypair calculate_xy(int i)const
     {
-        int pixel_x = i % pixel_count_x_;
-        int pixel_y = (i - pixel_count_x_) / pixel_count_x_;
+        int pixel_x = i % pixel_count_x;
+        int pixel_y = (i - pixel_count_x) / pixel_count_x;
     
         double x = min_x_ + pixel_x * pixel_size;
         double y = max_y_ - pixel_y * pixel_size;
@@ -51,13 +51,13 @@ public:
 
     double pixel_size;
 
+    int pixel_count_x;
+    int pixel_count_y;
+    
 private:
 
     void setup();
 
-    int pixel_count_x_;
-    int pixel_count_y_;
-    
     double center_x_;
     double center_y_;
 
