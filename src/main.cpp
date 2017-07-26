@@ -14,16 +14,16 @@ using namespace std;
 
 class MyFunctor { 
 public:
-  MyFunctor(Kokkos::View<double*> a, Grid grid, Mandelbrot mb) : a_(a), grid_(grid), mb_(mb) {}
+  MyFunctor(Kokkos::View<mytriple*> a, Grid grid, Mandelbrot mb) : a_(a), grid_(grid), mb_(mb) {}
   
   KOKKOS_INLINE_FUNCTION 
   void operator() (int i) const {  
     mypair xy = grid_.calculate_xy(i);                      
-    a_(i) = mb_.calculate_mandelbrot(xy.x, xy.y);
+    a_(i) = mb_.calculate_mandelbrot_color(xy.x, xy.y, grid_);
   }
 
 private:
-  Kokkos::View<double*> a_;
+  Kokkos::View<mytriple*> a_;
 
   Grid grid_;
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
   const double center_y = 0.00;
   const double length_x = 2.75;
   const double length_y = 2.0;
-  const int pixel_count_x = 10;
+  const int pixel_count_x = 1000;
   Grid grid(center_x, center_y, length_x, length_y, pixel_count_x);
   
   // Set up Mandelbrot object
@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
   Mandelbrot mandelbrot(rad_max, iter_max);
 
   // Allocate our arrays
-  Kokkos::View<double*> a("a", grid.num_pixels);
+  Kokkos::View<mytriple*> a("a", grid.num_pixels);
 
   // Create host mirror of a
   auto  a_mirror = Kokkos::create_mirror_view(a);
@@ -68,8 +68,12 @@ int main(int argc, char **argv) {
   fprintf(fid, "%i %i\n", grid.pixel_count_x, grid.pixel_count_y);
   fprintf(fid, "%i\n", 255);
   for (auto i = 0; i < grid.num_pixels; i++) {
-    unsigned char tmp = a_mirror(i);
-    fwrite(&tmp, sizeof(unsigned char), 1, fid);
+    unsigned char tmpa = a_mirror(i).a;
+    unsigned char tmpb = a_mirror(i).b;
+    unsigned char tmpc = a_mirror(i).c;
+    fwrite(&tmpa, sizeof(unsigned char), 1, fid);
+    fwrite(&tmpb, sizeof(unsigned char), 1, fid);
+    fwrite(&tmpc, sizeof(unsigned char), 1, fid);
   }
   fclose(fid);
   

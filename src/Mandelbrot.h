@@ -47,20 +47,20 @@ public:
     }
 
     KOKKOS_INLINE_FUNCTION
-    mytriple hsv_to_rgb(mytriple hsv)
+    mytriple hsv_to_rgb(mytriple hsv)const
     {
         int h = hsv.a;
         int s = hsv.b;
         int v = hsv.c;
 
         int c = v * s;
-        double hp = h / 60.;
+        int hp = floor(h / 60.);
 
-        int x = round(c * (1. - abs(fmod(hp, 2.) - 1.)));
+        int x = c * (hp % 2);
 
         mytriple rgb;
 
-        switch (floor(hp))
+        switch (hp)
         {
             case 0:
                 rgb = {c, x, 0};
@@ -74,7 +74,9 @@ public:
                 rgb = {x, 0, c};
             case 5:
                 rgb = {c, 0, x};
-        }
+            default:        
+                rgb = {0, 0, 0};
+}
 
         int m = v - c;
 
@@ -112,7 +114,7 @@ public:
 
     //COLOR mandelbrot
     KOKKOS_INLINE_FUNCTION
-    double calculate_mandelbrot_color(double x0, double y0, Grid grid)const {
+    mytriple calculate_mandelbrot_color(double x0, double y0, Grid grid)const {
         int iter = 0;
         double rad_z2 = 0.0;
         double x = 0.0;
@@ -149,17 +151,19 @@ public:
     }
 
     KOKKOS_INLINE_FUNCTION
-    double color(distance,iterations, Grid grid)const
+    mytriple color(double distance, int iterations, Grid grid)const
     {
         double half_pixel_size = 0.5 * grid.pixel_size;
 
+        double value = 0;
+
         if( iterations > iter_max_) {
-            mytriple hsv {0., 0., 0.} ;
-            return hsv_to_rgv(hsv) ;
+            mytriple hsv = {0, 0, 0} ;
+            return hsv_to_rgb(hsv) ;
         } else if( distance < half_pixel_size ) {
-            double value = pow(distance/ half_pixel_size, 1./3.) ;
+            value = pow(distance/ half_pixel_size, 1./3.) ;
         } else {
-            double value = 1.0 ;
+            value = 1.0 ;
         }
        
         double saturation = 0.7 ; 
