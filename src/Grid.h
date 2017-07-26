@@ -4,6 +4,9 @@
 #include <utility>
 #include <math.h>
 
+#ifndef GRID
+#define GRID
+
 class Grid
 {
 
@@ -23,6 +26,8 @@ public:
 
     int num_pixels;
 
+    double pixel_size;
+
 private:
 
     void setup();
@@ -36,9 +41,9 @@ private:
     double length_x_;
     double length_y_;
 
-    double pixel_size_;
-
     double min_x_;
     double max_y_;
 
 };
+
+#endif //GRID
