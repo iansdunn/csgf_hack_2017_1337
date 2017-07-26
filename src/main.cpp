@@ -63,13 +63,15 @@ int main(int argc, char **argv) {
   // Update the mirror
   deep_copy(a_mirror, a);
   
-  ofstream myfile;
-  myfile.open("mandelbrot.ppm");
-  myfile << "P5" << endl;
-  myfile << grid.pixel_count_x << " " << grid.pixel_count_y << "endl";
+  FILE* fid = fopen("mandelbrot.ppm", "wb");
+  fprintf(fid, "P5\n");
+  fprintf(fid, "%i %i\n", grid.pixel_count_x, grid.pixel_count_y);
+  fprintf(fid, "%i\n", 255);
   for (auto i = 0; i < grid.num_pixels; i++) {
-    myfile << std::bitset< 8 >(a_mirror(i));
-  }  
+    unsigned char tmp = a_mirror(i);
+    fwrite(&tmp, sizeof(unsigned char), 1, fid);
+  }
+  fclose(fid);
   
   cout << "Done!" << endl;
 
