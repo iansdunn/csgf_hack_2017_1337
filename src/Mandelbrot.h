@@ -49,10 +49,38 @@ public:
     KOKKOS_INLINE_FUNCTION
     mytriple hsv_to_rgb(mytriple hsv)
     {
+        int h = hsv.a;
+        int s = hsv.b;
+        int v = hsv.c;
+
+        int c = v * s;
+        double hp = h / 60.;
+
+        int x = round(c * (1. - abs(fmod(hp, 2.) - 1.)));
+
         mytriple rgb;
-        rgb.a = 0;
-        rgb.b = 0;
-        rgb.c = 0;
+
+        switch (floor(hp))
+        {
+            case 0:
+                rgb = {c, x, 0};
+            case 1:
+                rgb = {x, c, 0};
+            case 2:
+                rgb = {0, c, x};
+            case 3:
+                rgb = {0, x, c};
+            case 4:
+                rgb = {x, 0, c};
+            case 5:
+                rgb = {c, 0, x};
+        }
+
+        int m = v - c;
+
+        rgb.a += m;
+        rgb.b += m;
+        rgb.c += m;
 
         return rgb;
     }
@@ -97,9 +125,6 @@ public:
     }
     
 private:
-
-    //KOKKOS_INLINE_FUNCTION
-    //double color(double distance, Grid grid);
 
     double rad_max_;
 
