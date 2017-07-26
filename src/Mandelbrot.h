@@ -10,6 +10,13 @@
 #ifndef MANDELBROT
 #define MANDELBROT
 
+struct mytriple
+{
+    int a;
+    int b;
+    int c;
+};
+
 class Mandelbrot
 {
 
@@ -37,6 +44,17 @@ public:
         else {
             return 255.;
         }
+    }
+
+    KOKKOS_INLINE_FUNCTION
+    mytriple hsv_to_rgb(mytriple hsv)
+    {
+        mytriple rgb;
+        rgb.a = 0;
+        rgb.b = 0;
+        rgb.c = 0;
+
+        return rgb;
     }
 
     //Grayscale mandelbrot
@@ -88,7 +106,8 @@ public:
         return color(distance, iter, grid) ;
     }
 
-    // Get grayscale graysc between 0 and 255
+    // Get grayscale color between 0 and 255
+    KOKKOS_INLINE_FUNCTION
     double graysc(double distance, Grid grid)const
     {
         double half_pixel_size = 0.5 * grid.pixel_size;
@@ -101,6 +120,7 @@ public:
             return 255.;
     }
 
+    KOKKOS_INLINE_FUNCTION
     double color(distance,iterations, Grid grid)const
     {
         double half_pixel_size = 0.5 * grid.pixel_size;
