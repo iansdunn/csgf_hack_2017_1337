@@ -10,6 +10,13 @@
 #ifndef MANDELBROT
 #define MANDELBROT
 
+struct mytriple
+{
+    int a;
+    int b;
+    int c;
+}
+
 class Mandelbrot
 {
 
@@ -37,6 +44,17 @@ public:
         else {
             return 255;
         }
+    }
+
+    KOKKOS_INLINE_FUNCTION
+    mytriple hsv_to_rgb(mytriple hsv)
+    {
+        mytriple rgb;
+        rgb.a = 0;
+        rgb.b = 0;
+        rgb.c = 0;
+
+        return rgb.c;
     }
     
 private:
