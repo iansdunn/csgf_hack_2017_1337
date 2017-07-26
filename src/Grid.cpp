@@ -9,4 +9,6 @@ void Grid::setup()
     pixel_size_ = length_x_ / pixel_count_x_;
 
     pixel_count_y_ = ceil(length_y_ / pixel_size_);
+
+    num_pixels = pixel_count_x_ * pixel_count_y_;
 }
