@@ -7,6 +7,8 @@
 #include <limits>
 #include "Grid.h" 
 #include "Mandelbrot.h"
+#include <fstream>
+#include <bitset>
 
 using namespace std;
 
@@ -60,7 +62,17 @@ int main(int argc, char **argv) {
 
   // Update the mirror
   deep_copy(a_mirror, a);
-
+  
+  FILE* fid = fopen("mandelbrot.ppm", "wb");
+  fprintf(fid, "P5\n");
+  fprintf(fid, "%i %i\n", grid.pixel_count_x, grid.pixel_count_y);
+  fprintf(fid, "%i\n", 255);
+  for (auto i = 0; i < grid.num_pixels; i++) {
+    unsigned char tmp = a_mirror(i);
+    fwrite(&tmp, sizeof(unsigned char), 1, fid);
+  }
+  fclose(fid);
+  
   cout << "Done!" << endl;
 
   Kokkos::finalize();
