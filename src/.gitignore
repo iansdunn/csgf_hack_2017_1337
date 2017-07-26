@@ -1,0 +1,4 @@
+*.o
+main.cuda
+Kokkos*
+libkokkos.a
