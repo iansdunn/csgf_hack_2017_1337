@@ -2,6 +2,7 @@
 // Created by Ian Dunn.
 
 #include <utility>
+#include <math.h>
 
 class Grid
 {
