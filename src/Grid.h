@@ -12,7 +12,7 @@ public:
     Grid(double center_x, double center_y,
          double length_x, double length_y, 
          int pixel_count_x) :
-        center_x_(center_x_), center_y_(center_y),
+        center_x_(center_x), center_y_(center_y),
         length_x_(length_x), length_y_(length_y),
         pixel_count_x_(pixel_count_x)
     {
