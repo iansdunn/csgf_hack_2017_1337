@@ -29,7 +29,8 @@ DEPFLAGS = -M
 OBJ = $(SRC:.cpp=.o)
 LIB =
 
-INCLUDE = -I $(wildcard *.h)
+#INCLUDE = -I $(wildcard *.h)
+INCLUDE = 
 
 include $(KOKKOS_PATH)/Makefile.kokkos
 

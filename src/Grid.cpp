@@ -3,19 +3,6 @@
 
 #include "Grid.h"
 
-std::pair<double, double> Grid::calculate_xy(int i)
-{
-    int pixel_x = i % pixel_count_x_;
-    int pixel_y = (i - pixel_count_x_) / pixel_count_x_;
-
-    double x = min_x_ + pixel_x * pixel_size;
-    double y = max_y_ - pixel_y * pixel_size;
-
-    std::pair<double, double> xy(x, y);
-
-    return xy;
-}
-
 void Grid::setup()
 {
     min_x_ = center_x_ - length_x_ / 2.0;

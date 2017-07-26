@@ -3,9 +3,18 @@
 
 #include <utility>
 #include <math.h>
+#include <Kokkos_Core.hpp>
+#include <Kokkos_Parallel.hpp>
+#include <Kokkos_View.hpp>
 
 #ifndef GRID
 #define GRID
+
+struct mypair
+{
+    double x;
+    double y;
+};
 
 class Grid
 {
@@ -22,8 +31,22 @@ public:
         setup();
     }
 
-    std::pair<double, double> calculate_xy(int i);
-
+    KOKKOS_INLINE_FUNCTION
+    mypair calculate_xy(int i)const
+    {
+        int pixel_x = i % pixel_count_x_;
+        int pixel_y = (i - pixel_count_x_) / pixel_count_x_;
+    
+        double x = min_x_ + pixel_x * pixel_size;
+        double y = max_y_ - pixel_y * pixel_size;
+    
+        mypair xy;
+        xy.x = x;
+        xy.y = y;
+    
+        return xy;
+    }
+    
     int num_pixels;
 
     double pixel_size;
