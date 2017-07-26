@@ -1,6 +1,8 @@
 // Mandelbrot.cpp
 // Created by Laura Watkins.
 
+include "Mandelbrot.h"
+
 int Mandelbrot::calculate_mandelbrot(double x0, double y0) {
     int iter = 0;
     double rad_z = 0.0;

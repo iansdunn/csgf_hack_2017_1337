@@ -1,10 +1,12 @@
 // Grid.cpp
 // Created by Ian Dunn.
 
+#include "Grid.h"
+
 std::pair<double, double> Grid::calculate_xy(int i)
 {
     int pixel_x = i % pixel_count_x_;
-    int pixel_y = round((i - pixel_count_x) / pixel_count_x_);
+    int pixel_y = (i - pixel_count_x_) / pixel_count_x_;
 
     double x = min_x_ + pixel_x * pixel_size_;
     double y = max_y_ - pixel_y * pixel_size_;
